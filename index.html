@@ -1,869 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aneka Satti — Developer</title>
-<meta name="description" content="Aneka Satti — Software developer building clean, reliable web experiences.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0a0e17;
-    --surface:#111827;
-    --surface-2:#161f33;
-    --border:#232e47;
-    --text:#e7ecf6;
-    --text-dim:#8b96b3;
-    --cyan:#22d3ee;
-    --purple:#a78bfa;
-    --grad: linear-gradient(115deg, var(--cyan), var(--purple));
-    --radius: 10px;
-    --maxw: 1080px;
-    --font-head: 'Space Grotesk', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-  }
-
-  html[data-theme="light"]{
-    --bg:#f6f7fb;
-    --surface:#ffffff;
-    --surface-2:#eef1f8;
-    --border:#dde2ee;
-    --text:#111726;
-    --text-dim:#5b6478;
-    --cyan:#0891b2;
-    --purple:#7c3aed;
-  }
-
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:var(--font-body);
-    line-height:1.6;
-    transition:background .3s ease, color .3s ease;
-    overflow-x:hidden;
-  }
-  a{color:inherit; text-decoration:none;}
-  ul{list-style:none;}
-  img,svg{display:block; max-width:100%;}
-
-  ::selection{background:var(--purple); color:#fff;}
-
-  :focus-visible{
-    outline:2px solid var(--cyan);
-    outline-offset:3px;
-  }
-
-  .wrap{
-    max-width:var(--maxw);
-    margin:0 auto;
-    padding:0 24px;
-  }
-
-  /* ---------- NAV ---------- */
-  header.site-nav{
-    position:fixed; top:0; left:0; right:0;
-    z-index:100;
-    background:color-mix(in srgb, var(--bg) 82%, transparent);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--border);
-  }
-  .nav-inner{
-    max-width:var(--maxw);
-    margin:0 auto;
-    padding:16px 24px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-  }
-  .logo{
-    font-family:var(--font-mono);
-    font-size:1rem;
-    font-weight:500;
-    color:var(--text);
-  }
-  .logo span{color:var(--cyan);}
-  nav.links{
-    display:flex;
-    gap:28px;
-    align-items:center;
-  }
-  nav.links a{
-    font-size:.92rem;
-    color:var(--text-dim);
-    transition:color .2s ease;
-    position:relative;
-  }
-  nav.links a:hover{color:var(--text);}
-  nav.links a::after{
-    content:"";
-    position:absolute;
-    left:0; bottom:-6px;
-    width:0; height:1px;
-    background:var(--grad);
-    transition:width .25s ease;
-  }
-  nav.links a:hover::after{width:100%;}
-
-  .theme-toggle{
-    width:40px; height:40px;
-    border-radius:50%;
-    border:1px solid var(--border);
-    background:var(--surface);
-    color:var(--text);
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:border-color .2s ease, transform .2s ease;
-  }
-  .theme-toggle:hover{border-color:var(--cyan); transform:translateY(-1px);}
-  .theme-toggle svg{width:18px; height:18px;}
-
-  .nav-toggle{
-    display:none;
-    width:36px; height:36px;
-    border:1px solid var(--border);
-    background:var(--surface);
-    border-radius:8px;
-    color:var(--text);
-    cursor:pointer;
-  }
-
-  /* ---------- HERO ---------- */
-  .hero{
-    padding:168px 0 96px;
-    position:relative;
-  }
-  .hero-grid{
-    display:grid;
-    grid-template-columns:1.15fr .85fr;
-    gap:56px;
-    align-items:center;
-  }
-  .eyebrow-mono{
-    font-family:var(--font-mono);
-    font-size:.85rem;
-    color:var(--cyan);
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:18px;
-  }
-  .eyebrow-mono .dot{
-    width:8px; height:8px; border-radius:50%;
-    background:var(--cyan);
-    box-shadow:0 0 0 4px color-mix(in srgb, var(--cyan) 20%, transparent);
-    animation:pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes pulse{
-    0%,100%{opacity:1;}
-    50%{opacity:.4;}
-  }
-  h1.hero-name{
-    font-family:var(--font-head);
-    font-weight:700;
-    font-size:clamp(2.6rem, 6vw, 4.4rem);
-    line-height:1.03;
-    letter-spacing:-0.02em;
-  }
-  h1.hero-name .grad{
-    background:var(--grad);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  .hero-role{
-    font-family:var(--font-head);
-    font-size:clamp(1.1rem, 2vw, 1.4rem);
-    color:var(--text-dim);
-    margin-top:10px;
-    font-weight:500;
-  }
-  .hero-bio{
-    margin-top:22px;
-    max-width:52ch;
-    color:var(--text-dim);
-    font-size:1.02rem;
-  }
-  .cta-row{
-    margin-top:34px;
-    display:flex;
-    gap:14px;
-    flex-wrap:wrap;
-  }
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:13px 24px;
-    border-radius:8px;
-    font-size:.95rem;
-    font-weight:500;
-    cursor:pointer;
-    transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
-    border:1px solid transparent;
-  }
-  .btn-primary{
-    background:var(--grad);
-    color:#06111f;
-    font-weight:600;
-  }
-  .btn-primary:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 30px -8px color-mix(in srgb, var(--purple) 55%, transparent);
-  }
-  .btn-ghost{
-    background:transparent;
-    border-color:var(--border);
-    color:var(--text);
-  }
-  .btn-ghost:hover{
-    border-color:var(--cyan);
-    transform:translateY(-2px);
-  }
-
-  .social-row{
-    margin-top:38px;
-    display:flex;
-    gap:16px;
-  }
-  .social-icon{
-    width:42px; height:42px;
-    border-radius:50%;
-    border:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--text-dim);
-    transition:all .2s ease;
-  }
-  .social-icon:hover{
-    color:var(--bg);
-    background:var(--cyan);
-    border-color:var(--cyan);
-    transform:translateY(-3px);
-  }
-  .social-icon svg{width:19px; height:19px;}
-
-  /* Hero terminal card */
-  .term-card{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    overflow:hidden;
-    box-shadow:0 30px 60px -30px rgba(0,0,0,.6);
-  }
-  .term-bar{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:12px 16px;
-    background:var(--surface-2);
-    border-bottom:1px solid var(--border);
-  }
-  .term-dot{width:11px; height:11px; border-radius:50%;}
-  .term-body{
-    padding:22px 20px;
-    font-family:var(--font-mono);
-    font-size:.85rem;
-    color:var(--text-dim);
-    min-height:220px;
-  }
-  .term-body .line{margin-bottom:10px;}
-  .term-body .prompt{color:var(--purple);}
-  .term-body .key{color:var(--cyan);}
-  .term-body .str{color:#a3e635;}
-  .cursor-blink{
-    display:inline-block;
-    width:7px; height:14px;
-    background:var(--cyan);
-    margin-left:2px;
-    animation:blink 1s step-end infinite;
-    vertical-align:middle;
-  }
-  @keyframes blink{50%{opacity:0;}}
-
-  /* ---------- SECTION SHARED ---------- */
-  section{padding:88px 0;}
-  .section-head{
-    margin-bottom:44px;
-    max-width:60ch;
-  }
-  .section-head h2{
-    font-family:var(--font-head);
-    font-size:clamp(1.7rem, 3vw, 2.3rem);
-    font-weight:600;
-    letter-spacing:-0.01em;
-  }
-  .section-head p{
-    margin-top:10px;
-    color:var(--text-dim);
-  }
-  .divider{
-    height:1px;
-    background:var(--border);
-    border:none;
-  }
-
-  /* ---------- ABOUT ---------- */
-  .about-grid{
-    display:grid;
-    grid-template-columns:0.9fr 1.1fr;
-    gap:56px;
-    align-items:start;
-  }
-  .about-copy p{
-    color:var(--text-dim);
-    margin-bottom:16px;
-  }
-  .stat-list{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-  }
-  .stat{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:20px;
-  }
-  .stat .num{
-    font-family:var(--font-head);
-    font-size:2rem;
-    font-weight:700;
-    background:var(--grad);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  .stat .label{
-    margin-top:4px;
-    font-size:.88rem;
-    color:var(--text-dim);
-  }
-
-  /* ---------- PROJECTS ---------- */
-  .project-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
-    gap:22px;
-  }
-  .project-card{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:26px;
-    display:flex;
-    flex-direction:column;
-    transition:border-color .25s ease, transform .25s ease;
-    position:relative;
-    overflow:hidden;
-  }
-  .project-card::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:var(--grad);
-    opacity:0;
-    transition:opacity .25s ease;
-    z-index:0;
-  }
-  .project-card:hover{
-    transform:translateY(-4px);
-    border-color:color-mix(in srgb, var(--cyan) 50%, var(--border));
-  }
-  .project-top{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    position:relative; z-index:1;
-  }
-  .project-card h3{
-    font-family:var(--font-head);
-    font-size:1.2rem;
-    font-weight:600;
-  }
-  .project-links{display:flex; gap:10px;}
-  .project-links a{
-    width:34px; height:34px;
-    border-radius:50%;
-    border:1px solid var(--border);
-    display:flex; align-items:center; justify-content:center;
-    color:var(--text-dim);
-    transition:all .2s ease;
-  }
-  .project-links a:hover{
-    color:var(--bg);
-    background:var(--purple);
-    border-color:var(--purple);
-  }
-  .project-links svg{width:15px; height:15px;}
-  .project-card p{
-    margin-top:10px;
-    color:var(--text-dim);
-    font-size:.93rem;
-    flex-grow:1;
-    position:relative; z-index:1;
-  }
-  .badge-row{
-    margin-top:18px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    position:relative; z-index:1;
-  }
-  .badge{
-    font-family:var(--font-mono);
-    font-size:.72rem;
-    padding:4px 10px;
-    border-radius:5px;
-    background:var(--surface-2);
-    border:1px solid var(--border);
-    color:var(--text-dim);
-  }
-
-  /* ---------- SKILLS ---------- */
-  .skills-cloud{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-  }
-  .skill-tag{
-    font-family:var(--font-mono);
-    font-size:.88rem;
-    padding:10px 18px;
-    border-radius:8px;
-    background:var(--surface);
-    border:1px solid var(--border);
-    color:var(--text);
-    transition:all .2s ease;
-    cursor:default;
-  }
-  .skill-tag:hover{
-    border-color:var(--cyan);
-    color:var(--cyan);
-    transform:translateY(-2px);
-  }
-
-  /* ---------- CONTACT ---------- */
-  .contact-grid{
-    display:grid;
-    grid-template-columns:.85fr 1.15fr;
-    gap:56px;
-  }
-  .contact-info p{color:var(--text-dim); margin-bottom:22px; max-width:40ch;}
-  .contact-detail{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:16px;
-    font-size:.94rem;
-  }
-  .contact-detail svg{width:18px; height:18px; color:var(--cyan); flex-shrink:0;}
-
-  form.contact-form{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-  }
-  .form-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-  }
-  label{
-    font-size:.82rem;
-    color:var(--text-dim);
-    margin-bottom:6px;
-    display:block;
-  }
-  input, textarea{
-    width:100%;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:12px 14px;
-    color:var(--text);
-    font-family:var(--font-body);
-    font-size:.94rem;
-    transition:border-color .2s ease;
-  }
-  input:focus, textarea:focus{
-    border-color:var(--cyan);
-    outline:none;
-  }
-  textarea{resize:vertical; min-height:120px;}
-  .form-status{
-    font-size:.85rem;
-    color:var(--cyan);
-    min-height:1.2em;
-  }
-
-  /* ---------- FOOTER ---------- */
-  footer{
-    border-top:1px solid var(--border);
-    padding:32px 0;
-  }
-  .footer-inner{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:14px;
-    font-size:.85rem;
-    color:var(--text-dim);
-  }
-  .footer-inner a:hover{color:var(--cyan);}
-
-  /* ---------- RESPONSIVE ---------- */
-  @media (max-width: 860px){
-    .hero-grid, .about-grid, .contact-grid{
-      grid-template-columns:1fr;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aneka | Web Developer Portfolio</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .term-card{order:-1;}
-    nav.links{
-      position:fixed;
-      top:69px; left:0; right:0;
-      background:var(--bg);
-      border-bottom:1px solid var(--border);
-      flex-direction:column;
-      padding:20px 24px 26px;
-      gap:18px;
-      transform:translateY(-130%);
-      transition:transform .3s ease;
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      line-height: 1.6;
     }
-    nav.links.open{transform:translateY(0);}
-    .nav-toggle{display:block;}
-    .form-row{grid-template-columns:1fr;}
-  }
-
-  @media (max-width: 480px){
-    .hero{padding-top:140px;}
-    .cta-row{flex-direction:column; align-items:stretch;}
-    .stat-list{grid-template-columns:1fr 1fr;}
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
-    html{scroll-behavior:auto;}
-  }
-</style>
+    header {
+      background-color: #1e293b;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 {
+      color: #38bdf8;
+      font-size: 1.5rem;
+    }
+    nav a {
+      color: #94a3b8;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #38bdf8;
+    }
+    section {
+      padding: 4rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero {
+      text-align: center;
+      padding: 6rem 2rem;
+    }
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .hero span {
+      color: #38bdf8;
+    }
+    .hero p {
+      color: #94a3b8;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #0284c7;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background-color: #0369a1;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .skill-card {
+      background: #1e293b;
+      padding: 1rem;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid #334155;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .project-card {
+      background: #1e293b;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #334155;
+    }
+    .project-card h3 {
+      color: #38bdf8;
+      margin-bottom: 0.5rem;
+    }
+    .project-card p {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #1e293b;
+      color: #64748b;
+      border-top: 1px solid #334155;
+    }
+  </style>
 </head>
 <body>
 
-<header class="site-nav">
-  <div class="nav-inner">
-    <a href="#top" class="logo">aneka<span>.</span>satti</a>
-    <nav class="links" id="navLinks">
+  <header>
+    <h1>Aneka's Portfolio</h1>
+    <nav>
       <a href="#about">About</a>
-      <a href="#projects">Projects</a>
       <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </nav>
-    <div style="display:flex; align-items:center; gap:10px;">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark theme">
-        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
-      </button>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-    </div>
-  </div>
-</header>
+  </header>
 
-<main id="top">
+  <main>
+    <section class="hero">
+      <h2>Hi, I'm <span>Aneka</span> 👋</h2>
+      <p>Frontend Developer crafting clean & responsive web experiences.</p>
+      <a href="#projects" class="btn">View My Work</a>
+    </section>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <div class="eyebrow-mono"><span class="dot"></span>available for new projects</div>
-        <h1 class="hero-name">Aneka Satti<br><span class="grad">builds for the web.</span></h1>
-        <p class="hero-role">Front-end leaning full-stack developer</p>
-        <p class="hero-bio">I turn ideas into fast, accessible interfaces — from the first component to the deployed build. I care about clean code, sensible architecture, and details that make a product feel considered.</p>
-        <div class="cta-row">
-          <a href="#projects" class="btn btn-primary">View my work</a>
-          <a href="#contact" class="btn btn-ghost">Get in touch</a>
-        </div>
-        <div class="social-row">
-          <a class="social-icon" href="https://github.com/anekasatti" target="_blank" rel="noopener" aria-label="GitHub">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.35-3.88-1.35-.52-1.34-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.74.8 1.18 1.82 1.18 3.08 0 4.41-2.7 5.38-5.27 5.67.42.36.78 1.08.78 2.17 0 1.57-.01 2.83-.01 3.22 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
-          </a>
-          <a class="social-icon" href="https://linkedin.com/in/anekasatti" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg>
-          </a>
-          <a class="social-icon" href="https://x.com/anekasatti" target="_blank" rel="noopener" aria-label="X (Twitter)">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7.2l-5.6-7.3L4 22H1l8.1-9.3L.9 2h7.3l5.1 6.7L18.9 2zm-1.3 18h2L7.5 4H5.4l12.2 16z"/></svg>
-          </a>
-          <a class="social-icon" href="mailto:hello@anekasatti.dev" aria-label="Email">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg>
-          </a>
-        </div>
+    <section id="about">
+      <h2>About Me</h2>
+      <p style="color: #94a3b8; margin-top: 1rem;">
+        Welcome to my personal portfolio! I am a passionate web developer focused on building functional, modern, and user-friendly websites. I enjoy learning new technologies and bringing creative ideas to life on the web.
+      </p>
+    </section>
+
+    <section id="skills">
+      <h2>My Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-card">HTML5</div>
+        <div class="skill-card">CSS3</div>
+        <div class="skill-card">JavaScript</div>
+        <div class="skill-card">Git & GitHub</div>
+        <div class="skill-card">Responsive Design</div>
       </div>
+    </section>
 
-      <div class="term-card" aria-hidden="true">
-        <div class="term-bar">
-          <span class="term-dot" style="background:#ff5f57;"></span>
-          <span class="term-dot" style="background:#febc2e;"></span>
-          <span class="term-dot" style="background:#28c840;"></span>
-        </div>
-        <div class="term-body">
-          <div class="line"><span class="prompt">$</span> whoami</div>
-          <div class="line">aneka_satti</div>
-          <div class="line"><span class="prompt">$</span> cat stack.json</div>
-          <div class="line">{</div>
-          <div class="line">&nbsp;&nbsp;<span class="key">"frontend"</span>: <span class="str">"React, JS, CSS"</span>,</div>
-          <div class="line">&nbsp;&nbsp;<span class="key">"tools"</span>: <span class="str">"Git, Vercel"</span>,</div>
-          <div class="line">&nbsp;&nbsp;<span class="key">"focus"</span>: <span class="str">"clean UI"</span></div>
-          <div class="line">}</div>
-          <div class="line"><span class="prompt">$</span> <span class="cursor-blink"></span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider">
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="wrap about-grid">
-      <div class="section-head" style="margin-bottom:0;">
-        <h2>About me</h2>
-        <p>A quick look at how I work and what I've been building.</p>
-      </div>
-      <div>
-        <div class="about-copy">
-          <p>I'm a developer who enjoys the whole path from a rough idea to a shipped product — sketching the layout, wiring up the logic, and polishing the last 10% that makes something feel finished.</p>
-          <p>Most of my work sits at the intersection of design and engineering: building interfaces that are fast, accessible, and pleasant to use, backed by code that's easy for the next person to read.</p>
-          <p>Outside of client and personal projects, I spend time exploring new front-end tooling and contributing small fixes to open-source repos I rely on.</p>
-        </div>
-        <div class="stat-list" style="margin-top:28px;">
-          <div class="stat"><div class="num">20+</div><div class="label">Projects shipped</div></div>
-          <div class="stat"><div class="num">3</div><div class="label">Years building</div></div>
-          <div class="stat"><div class="num">8</div><div class="label">Open-source PRs</div></div>
-          <div class="stat"><div class="num">100%</div><div class="label">Remote-friendly</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider">
-
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>Selected projects</h2>
-        <p>A few things I've built recently, from small tools to full applications.</p>
-      </div>
-      <div class="project-grid">
-
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="projects-grid">
         <div class="project-card">
-          <div class="project-top">
-            <h3>Taskflow</h3>
-            <div class="project-links">
-              <a href="#" aria-label="View code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.35-3.88-1.35-.52-1.34-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.74.8 1.18 1.82 1.18 3.08 0 4.41-2.7 5.38-5.27 5.67.42.36.78 1.08.78 2.17 0 1.57-.01 2.83-.01 3.22 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
-              <a href="#" aria-label="View live demo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a>
-            </div>
-          </div>
-          <p>A drag-and-drop task board with real-time sync, keyboard shortcuts, and offline support for teams that move fast.</p>
-          <div class="badge-row">
-            <span class="badge">React</span><span class="badge">Firebase</span><span class="badge">Vite</span>
-          </div>
+          <h3>Personal Portfolio</h3>
+          <p>A responsive personal portfolio website built using HTML and CSS to showcase skills and projects.</p>
+          <a href="https://aneka-portfolio.vercel.app" class="btn" target="_blank" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
         </div>
-
-        <div class="project-card">
-          <div class="project-top">
-            <h3>Weatherglass</h3>
-            <div class="project-links">
-              <a href="#" aria-label="View code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.35-3.88-1.35-.52-1.34-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.74.8 1.18 1.82 1.18 3.08 0 4.41-2.7 5.38-5.27 5.67.42.36.78 1.08.78 2.17 0 1.57-.01 2.83-.01 3.22 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
-              <a href="#" aria-label="View live demo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a>
-            </div>
-          </div>
-          <p>A minimal weather app with animated glass-morphism cards, hourly forecasts, and location search backed by a public API.</p>
-          <div class="badge-row">
-            <span class="badge">JavaScript</span><span class="badge">CSS</span><span class="badge">REST API</span>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-top">
-            <h3>Ledgerly</h3>
-            <div class="project-links">
-              <a href="#" aria-label="View code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.35-3.88-1.35-.52-1.34-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.74.8 1.18 1.82 1.18 3.08 0 4.41-2.7 5.38-5.27 5.67.42.36.78 1.08.78 2.17 0 1.57-.01 2.83-.01 3.22 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
-              <a href="#" aria-label="View live demo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a>
-            </div>
-          </div>
-          <p>A personal budgeting tool with category breakdowns, monthly trends, and CSV import, deployed as a static single-page app.</p>
-          <div class="badge-row">
-            <span class="badge">React</span><span class="badge">Chart.js</span><span class="badge">Vercel</span>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-top">
-            <h3>Snippet Vault</h3>
-            <div class="project-links">
-              <a href="#" aria-label="View code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.35-3.88-1.35-.52-1.34-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.74.8 1.18 1.82 1.18 3.08 0 4.41-2.7 5.38-5.27 5.67.42.36.78 1.08.78 2.17 0 1.57-.01 2.83-.01 3.22 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
-              <a href="#" aria-label="View live demo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a>
-            </div>
-          </div>
-          <p>A searchable code-snippet manager with syntax highlighting, tags, and local-first storage so it works fully offline.</p>
-          <div class="badge-row">
-            <span class="badge">TypeScript</span><span class="badge">IndexedDB</span><span class="badge">HTML</span>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <hr class="divider">
-
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="wrap">
-      <div class="section-head">
-        <h2>Tech stack</h2>
-        <p>Tools and languages I reach for most often.</p>
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <p style="color: #94a3b8; margin-top: 1rem;">
+        Feel free to reach out for collaborations or project inquiries!
+      </p>
+      <div style="margin-top: 1.5rem;">
+        <a href="https://github.com/aniesatti" class="btn" target="_blank">GitHub Profile</a>
       </div>
-      <div class="skills-cloud">
-        <span class="skill-tag">HTML</span>
-        <span class="skill-tag">CSS</span>
-        <span class="skill-tag">JavaScript</span>
-        <span class="skill-tag">TypeScript</span>
-        <span class="skill-tag">React</span>
-        <span class="skill-tag">Node.js</span>
-        <span class="skill-tag">Tailwind CSS</span>
-        <span class="skill-tag">Git</span>
-        <span class="skill-tag">GitHub</span>
-        <span class="skill-tag">Vercel</span>
-        <span class="skill-tag">REST APIs</span>
-        <span class="skill-tag">Figma</span>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <hr class="divider">
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="wrap contact-grid">
-      <div class="contact-info">
-        <h2 style="font-family:var(--font-head); font-size:clamp(1.7rem,3vw,2.3rem); font-weight:600; margin-bottom:14px;">Let's talk</h2>
-        <p>Have a project in mind or just want to say hello? My inbox is open.</p>
-        <div class="contact-detail">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg>
-          hello@anekasatti.dev
-        </div>
-        <div class="contact-detail">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Based in Pakistan · working remotely
-        </div>
-        <a href="mailto:hello@anekasatti.dev" class="btn btn-primary" style="margin-top:10px;">Email me directly</a>
-      </div>
-
-      <form class="contact-form" id="contactForm">
-        <div class="form-row">
-          <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required placeholder="Your name">
-          </div>
-          <div>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required placeholder="you@example.com">
-          </div>
-        </div>
-        <div>
-          <label for="message">Message</label>
-          <textarea id="message" name="message" required placeholder="Tell me about your project..."></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send message</button>
-        <p class="form-status" id="formStatus" role="status"></p>
-      </form>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  <div class="wrap footer-inner">
-    <span>© <span id="year"></span> Aneka Satti. All rights reserved.</span>
-    <a href="#top">Back to top ↑</a>
-  </div>
-</footer>
-
-<script>
-  // ---- Year ----
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  // ---- Theme toggle ----
-  const root = document.documentElement;
-  const themeToggle = document.getElementById('themeToggle');
-  const themeIcon = document.getElementById('themeIcon');
-
-  const sunPath = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
-  const moonPath = '<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>';
-
-  function applyTheme(theme){
-    root.setAttribute('data-theme', theme);
-    themeIcon.innerHTML = theme === 'light' ? sunPath : moonPath;
-    localStorage.setItem('portfolio-theme', theme);
-  }
-
-  const savedTheme = localStorage.getItem('portfolio-theme') ||
-    (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-  applyTheme(savedTheme);
-
-  themeToggle.addEventListener('click', () => {
-    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    applyTheme(next);
-  });
-
-  // ---- Mobile nav toggle ----
-  const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-
-  navToggle.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', isOpen);
-  });
-
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      navToggle.setAttribute('aria-expanded', 'false');
-    });
-  });
-
-  // ---- Contact form (mailto fallback, no backend required) ----
-  const form = document.getElementById('contactForm');
-  const status = document.getElementById('formStatus');
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const message = form.message.value.trim();
-
-    if(!name || !email || !message){
-      status.textContent = 'Please fill in every field before sending.';
-      return;
-    }
-
-    const subject = encodeURIComponent(`Portfolio inquiry from ${name}`);
-    const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
-    window.location.href = `mailto:hello@anekasatti.dev?subject=${subject}&body=${body}`;
-
-    status.textContent = 'Opening your email client…';
-    form.reset();
-  });
-</script>
+  <footer>
+    <p>&copy; 2026 Aneka. Built with passion & HTML/CSS.</p>
+  </footer>
 
 </body>
 </html>
